@@ -1,14 +1,38 @@
-import { createReducer, combineReducers } from '@reduxjs/toolkit';
-import { addContact, deleteContact, changeFilter } from './actions';
+// import { createReducer, combineReducers, createSlice } from '@reduxjs/toolkit';
+import { combineReducers, createSlice } from '@reduxjs/toolkit';
+// import { addContact, deleteContact, changeFilter } from './actions';
 
-const contacts = createReducer([], {
-  [addContact]: (state, { payload }) => [...state, payload],
-  [deleteContact]: (state, { payload }) =>
-    state.filter(({ id }) => id !== payload),
+// const items = createReducer([], {
+//   [addContact]: (state, { payload }) => [...state, payload],
+//   [deleteContact]: (state, { payload }) =>
+//     state.filter(({ id }) => id !== payload),
+// });
+
+// const filter = createReducer('', {
+//   [changeFilter]: (state, { payload }) => payload,
+// });
+
+// export default combineReducers({ items, filter });
+
+const items = createSlice({
+  name: 'items',
+  initialState: [],
+  addContact(state, { payload }) {
+    return [...state, payload];
+  },
+  deleteContact(state, { payload }) {
+    state.filter(({ id }) => id !== payload);
+  },
 });
 
-const filter = createReducer('', {
-  [changeFilter]: (state, { payload }) => payload,
+const filter = createSlice({
+  name: 'filter',
+  initialState: '',
+  changeFilter(state, { payload }) {
+    return payload;
+  },
 });
 
-export default combineReducers({ contacts, filter });
+export const { addContact } = items.actions;
+
+export default combineReducers({ items, filter });
