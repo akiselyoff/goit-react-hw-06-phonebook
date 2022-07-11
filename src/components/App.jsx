@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react'
-import { nanoid } from 'nanoid';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { nanoid } from '@reduxjs/toolkit';
+// import store from '../redux/store';
+import { addContact } from 'redux/actions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ContactForm from './ContactForm/ContactForm';
@@ -10,6 +13,8 @@ import s from './containerApp.module.css';
 export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
+  const dispatch = useDispatch();
+  // const contacts = useSelector(state => state.contacts.items);
 
   useEffect(() => {
     const contacts = localStorage.getItem('contacts');
@@ -24,17 +29,13 @@ export const App = () => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
-
-  
   const handleFilterChange = e => {
-   
     setFilter(e.currentTarget.value);
   };
-  
 
   const filteredContacts = () => {
     const filterNormalize = filter.toLowerCase();
-    
+
     return contacts
       .filter(contact => {
         return contact.name.toLowerCase().includes(filterNormalize);
@@ -42,26 +43,28 @@ export const App = () => {
       .sort((a, b) => a.name.localeCompare(b.name));
   };
 
-  
-
-   const formSubmit = ({ name, number }) => {
-    const isContact = contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase());
+  const formSubmit = ({ name, number }) => {
+    const isContact = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
     if (isContact) {
-       toast.warn(`${name} is already in contact`, {
-          theme: 'colored',
-          autoClose: 4000,
-          pauseOnHover: true,
-          closeOnClick: true,
-        });
-    } else {
-      setContacts(state => {
-        const newContact = {
-          id: nanoid(5),
-          name,
-          number,
-        };
-        return [newContact, ...state];
+      toast.warn(`${name} is already in contact`, {
+        theme: 'colored',
+        autoClose: 4000,
+        pauseOnHover: true,
+        closeOnClick: true,
       });
+    } else {
+      // setContacts(state => {
+      //   const newContact = {
+      //     id: nanoid(5),
+      //     name,
+      //     number,
+      //   };
+      //   return [newContact, ...state];
+      // });
+
+      dispatch(addContact({ id: nanoid(5), name, number }));
     }
   };
 
@@ -70,33 +73,33 @@ export const App = () => {
   };
 
   return (
-     <div className={s.containerApp}>
-        <h1>Phone Book</h1>
-        <ContactForm onSubmit={formSubmit} />
-        <div className={s.containerContacts}>
-          <h2>Contacts</h2>
-          <Filter
-            title="Find contact by name"
-            onChange={handleFilterChange}
-            value={filter}
-          />
+    <div className={s.containerApp}>
+      <h1>Phone Book</h1>
+      <ContactForm onSubmit={formSubmit} />
+      <div className={s.containerContacts}>
+        <h2>Contacts</h2>
+        <Filter
+          title="Find contact by name"
+          onChange={handleFilterChange}
+          value={filter}
+        />
 
-          <ContactList
-            filteredContacts={filteredContacts()}
-            onDelete={contactDelete}
-          />
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-        </div>
+        <ContactList
+          filteredContacts={filteredContacts()}
+          onDelete={contactDelete}
+        />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
       </div>
+    </div>
   );
 };

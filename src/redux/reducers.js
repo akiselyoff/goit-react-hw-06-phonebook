@@ -1,5 +1,5 @@
 // import { createReducer, combineReducers, createSlice } from '@reduxjs/toolkit';
-import { combineReducers, createSlice } from '@reduxjs/toolkit';
+import { createSlice, combineReducers } from '@reduxjs/toolkit';
 // import { addContact, deleteContact, changeFilter } from './actions';
 
 // const items = createReducer([], {
@@ -14,7 +14,7 @@ import { combineReducers, createSlice } from '@reduxjs/toolkit';
 
 // export default combineReducers({ items, filter });
 
-const items = createSlice({
+export const items = createSlice({
   name: 'items',
   initialState: [],
   addContact(state, { payload }) {
@@ -25,7 +25,7 @@ const items = createSlice({
   },
 });
 
-const filter = createSlice({
+export const filter = createSlice({
   name: 'filter',
   initialState: '',
   changeFilter(state, { payload }) {
@@ -33,6 +33,8 @@ const filter = createSlice({
   },
 });
 
-export const { addContact } = items.actions;
+export const { addContact, deleteContact } = items.actions;
+
+console.log(items.actions);
 
 export default combineReducers({ items, filter });
