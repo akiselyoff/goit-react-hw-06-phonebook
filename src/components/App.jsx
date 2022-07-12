@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from '@reduxjs/toolkit';
 // import store from '../redux/store';
 import { addContact } from '../redux/reducers';
+import { getContacts } from '../redux/selectors';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ContactForm from './ContactForm/ContactForm';
@@ -11,19 +12,20 @@ import ContactList from './ContactList/ContactList';
 import s from './containerApp.module.css';
 
 export const App = () => {
-  const [contacts, setContacts] = useState([]);
+  // const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
   const dispatch = useDispatch();
-  // const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(getContacts);
 
   useEffect(() => {
     const contacts = localStorage.getItem('contacts');
     const parsedContacts = JSON.parse(contacts);
 
     if (parsedContacts) {
-      setContacts(parsedContacts);
+      // setContacts(parsedContacts);
+      dispatch(parsedContacts);
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
@@ -55,21 +57,13 @@ export const App = () => {
         closeOnClick: true,
       });
     } else {
-      // setContacts(state => {
-      //   const newContact = {
-      //     id: nanoid(5),
-      //     name,
-      //     number,
-      //   };
-      //   return [newContact, ...state];
-      // });
-
       dispatch(addContact({ id: nanoid(5), name, number }));
     }
   };
 
   const contactDelete = id => {
-    setContacts(state => state.filter(contact => contact.id !== id));
+    // setContacts(state => state.filter(contact => contact.id !== id));
+    dispatch(state => state.filter(contact => contact.id !== id));
   };
 
   return (
