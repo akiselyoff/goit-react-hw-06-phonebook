@@ -1,10 +1,13 @@
 import { useState } from 'react';
+// import { useDispatch } from 'react-redux';
+// import { addContact } from '../../redux/reducers';
 import PropTypes from 'prop-types';
 import s from './ContactForm.module.css';
 
 const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  // const dispatch = useDispatch();
 
   const handleInputNameChange = e => {
     const { value } = e.currentTarget;
@@ -19,6 +22,8 @@ const ContactForm = ({ onSubmit }) => {
   const handleSubmit = e => {
     e.preventDefault();
     onSubmit({ name, number });
+    // dispatch(addContact({ name, number }));
+
     setName('');
     setNumber('');
   };
