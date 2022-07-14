@@ -5,10 +5,12 @@ export const items = createSlice({
   initialState: [],
   reducers: {
     addContact(state, { payload }) {
-      state.push(payload);
+      // state.push(payload);//можна мутировать стейт, под капотом код делается иммутабельным
+      return [...state, payload];
     },
+
     deleteContact(state, { payload }) {
-      state.filter(({ id }) => id !== payload);
+      return state.filter(({ id }) => id !== payload);
     },
   },
 });
