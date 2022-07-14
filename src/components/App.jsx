@@ -4,25 +4,6 @@ import ContactList from './ContactList/ContactList';
 import s from './containerApp.module.css';
 
 export const App = () => {
-  // useEffect(() => {
-  //   const contacts = localStorage.getItem('contacts');
-  //   const parsedContacts = JSON.parse(contacts);
-
-  //   if (parsedContacts) {
-  //     // setContacts(parsedContacts);
-  //     dispatch(addContact(parsedContacts));
-  //   }
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //   localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
-
-  // const contactDelete = id => {
-  //   // setContacts(state => state.filter(contact => contact.id !== id));
-  //   dispatch(deleteContact({ id }));
-  // };
-
   return (
     <div className={s.containerApp}>
       <h1>Phone Book</h1>

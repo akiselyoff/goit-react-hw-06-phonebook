@@ -33,7 +33,7 @@ export default combineReducers({
   filter: filter.reducer,
 });
 
-// const items = createReducer([], {
+// const items = createReducer([], {//alternative code for use with actions
 //   [addContact]: (state, { payload }) => [...state, payload],
 //   [deleteContact]: (state, { payload }) =>
 //     state.filter(({ id }) => id !== payload),
