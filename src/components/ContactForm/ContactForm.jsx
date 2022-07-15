@@ -38,9 +38,9 @@ const ContactForm = () => {
       });
     } else {
       dispatch(addContact({ id: nanoid(5), name, number }));
+      setName('');
+      setNumber('');
     }
-    setName('');
-    setNumber('');
   };
 
   return (
